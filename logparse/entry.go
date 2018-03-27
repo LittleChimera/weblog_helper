@@ -22,3 +22,7 @@ func (entry *LogEntry) SourceIP() net.IP {
 
 	return nil
 }
+
+func (entry *LogEntry) MatchIP(address net.IP) bool {
+	return address.Equal(entry.SourceIP())
+}

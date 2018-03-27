@@ -2,6 +2,7 @@ package logparse
 
 import (
 	"fmt"
+	"net"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -35,4 +36,11 @@ func TestParseSourceIPFromEntry(t *testing.T) {
 	}
 	fmt.Println(entry.logLine)
 	assert.Equal(t, testingSourceIP, entry.SourceIP().String())
+}
+
+func TestMatchIP(t *testing.T) {
+	entry := &LogEntry{
+		fmt.Sprintf(validLogEntryLineFormat, testingSourceIP),
+	}
+	assert.True(t, entry.MatchIP(net.ParseIP(testingSourceIP)))
 }
