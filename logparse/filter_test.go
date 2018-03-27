@@ -52,3 +52,17 @@ func TestFilterLogsByIP(t *testing.T) {
 	assert.Equal(t, 1, len(lines))
 	assert.True(t, len(lines[0]) > 0)
 }
+
+func TestFilterLogsByCIDR(t *testing.T) {
+	InitLogBuffer()
+	out := bytes.NewBufferString("")
+	_, filterMask, _ := net.ParseCIDR("180.76.15.0/24")
+	FilteredByCIDR(logBuffer, filterMask, out)
+
+	filteredContents, err := ioutil.ReadAll(out)
+	assert.Nil(t, err)
+	lines := strings.Split(string(filteredContents), "\n")
+
+	assert.Equal(t, 1, len(lines))
+	assert.True(t, len(lines[0]) > 0)
+}

@@ -44,3 +44,13 @@ func TestMatchIP(t *testing.T) {
 	}
 	assert.True(t, entry.MatchIP(net.ParseIP(testingSourceIP)))
 }
+
+func TestMatchCIDR(t *testing.T) {
+	entry := &LogEntry{
+		fmt.Sprintf(validLogEntryLineFormat, testingSourceIP),
+	}
+	_, matchingCIDR, _ := net.ParseCIDR("31.184.238.0/24")
+	_, nonMatchingCIDR, _ := net.ParseCIDR("31.184.237.0/24")
+	assert.True(t, entry.MatchCIDR(matchingCIDR))
+	assert.False(t, entry.MatchCIDR(nonMatchingCIDR))
+}

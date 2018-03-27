@@ -26,3 +26,7 @@ func (entry *LogEntry) SourceIP() net.IP {
 func (entry *LogEntry) MatchIP(address net.IP) bool {
 	return address.Equal(entry.SourceIP())
 }
+
+func (entry *LogEntry) MatchCIDR(mask *net.IPNet) bool {
+	return mask.Contains(entry.SourceIP())
+}

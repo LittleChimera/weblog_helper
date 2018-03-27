@@ -18,10 +18,13 @@ func main() {
 	ipFlag := flag.String("ip", "", "")
 	flag.Parse()
 
+	logReader := logReader()
+	defer logReader.Close()
+
 	if address := net.ParseIP(*ipFlag); address != nil {
-		logReader := logReader()
-		defer logReader.Close()
 		logparse.FilteredByIP(logReader, address, os.Stdout)
+	} else if _, mask, err := net.ParseCIDR(*ipFlag); err == nil {
+		logparse.FilteredByCIDR(logReader, mask, os.Stdout)
 	} else {
 		panic("Invalid or missing --ip argument")
 	}
