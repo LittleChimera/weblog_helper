@@ -7,7 +7,7 @@ import (
 	"net/http"
 	"os"
 
-	"./logparse"
+	"github.com/lukadante/weblog_helper/logparse"
 )
 
 const (
